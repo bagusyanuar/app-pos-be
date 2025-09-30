@@ -6,11 +6,13 @@ import (
 )
 
 type Service struct {
-	Auth AuthService
+	Auth            AuthService
+	ProductCategory ProductCategoryService
 }
 
 func InitService(cfg *config.AppConfig, repo *repository.Repository) *Service {
 	return &Service{
-		Auth: NewAuthService(repo.User, cfg),
+		Auth:            NewAuthService(repo.User, cfg),
+		ProductCategory: NewProductCategoryService(repo.ProductCategory, cfg),
 	}
 }
