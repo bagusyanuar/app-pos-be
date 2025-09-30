@@ -16,4 +16,8 @@ func NewRouter(cfg *config.AppConfig, handler *handler.Handler) {
 
 	productCategory := app.Group("/product-category", jwtMiddleware)
 	productCategory.Get("/", handler.ProductCategory.FindAll)
+	productCategory.Post("/", handler.ProductCategory.Create)
+	productCategory.Get("/:id", handler.ProductCategory.FindByID)
+	productCategory.Put("/:id", handler.ProductCategory.Update)
+	productCategory.Delete("/:id", handler.ProductCategory.Delete)
 }

@@ -7,6 +7,7 @@ var (
 	ErrBodyParser              = errors.New("invalid request body")
 	ErrValidation              = errors.New("validation error")
 	ErrUserNotFound            = errors.New("user not found")
+	ErrRecordNotFound          = errors.New("data not found")
 	ErrTokenMissingOrMalformed = errors.New("token is missing or malformed")
 	ErrTokenExpired            = errors.New("token is expired")
 	ErrClaimToken              = errors.New("token cannot be claim")
