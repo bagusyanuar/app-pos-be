@@ -6,6 +6,8 @@ import (
 	"github.com/bagusyanuar/app-pos-be/internal/config"
 	"github.com/bagusyanuar/app-pos-be/internal/http"
 	"github.com/bagusyanuar/app-pos-be/internal/http/handler"
+	"github.com/bagusyanuar/app-pos-be/internal/repository"
+	"github.com/bagusyanuar/app-pos-be/internal/service"
 )
 
 func initialize() *config.AppConfig {
@@ -18,7 +20,7 @@ func initialize() *config.AppConfig {
 	cfgJWT := config.NewJWTManager(viper)
 	validator := config.NewValidator()
 
-	redisClient := config.NewRedisClient(viper)
+	// redisClient := config.NewRedisClient(viper)
 
 	return &config.AppConfig{
 		App:       app,
@@ -27,7 +29,7 @@ func initialize() *config.AppConfig {
 		Logger:    logger,
 		JWT:       cfgJWT,
 		Validator: validator,
-		Redis:     redisClient,
+		// Redis:     redisClient,
 	}
 }
 
@@ -35,7 +37,9 @@ func Start() {
 	cfg := initialize()
 
 	// start dependency injection
-	diHandler := handler.InitHandler(cfg)
+	diRepository := repository.InitRepository(cfg)
+	diService := service.InitService(cfg, diRepository)
+	diHandler := handler.InitHandler(cfg, diService)
 
 	http.NewRouter(cfg, diHandler)
 	envPort := cfg.Viper.GetString("APP_PORT")
