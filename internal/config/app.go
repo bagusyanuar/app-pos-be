@@ -3,7 +3,6 @@ package config
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/minio/minio-go/v7"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -17,5 +16,5 @@ type AppConfig struct {
 	JWT       *JWTConfig
 	Validator *validator.Validate
 	Redis     *RedisClient
-	Minio     *minio.Client
+	Minio     *MinioConfig
 }

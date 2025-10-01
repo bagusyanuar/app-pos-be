@@ -42,9 +42,19 @@ func (c *ProductHandler) Create(ctx *fiber.Ctx) error {
 		})
 	}
 
-	schema := *req
+	fileHeader, err := ctx.FormFile("image")
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"code":    fiber.StatusBadRequest,
+			"message": "file not found",
+		})
+	}
 
-	err = c.ProductService.Create(ctx.UserContext(), &schema)
+	req.Image = fileHeader
+
+	schema := req
+
+	err = c.ProductService.Create(ctx.UserContext(), schema)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"code":    fiber.StatusInternalServerError,

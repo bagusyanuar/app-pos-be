@@ -9,13 +9,19 @@ import (
 	"github.com/spf13/viper"
 )
 
-func NewMinioClient(viper *viper.Viper) *minio.Client {
+type MinioConfig struct {
+	MinioClient *minio.Client
+	Bucket      string
+}
+
+func NewMinioClient(viper *viper.Viper) *MinioConfig {
 	host := viper.GetString("MINIO_HOST")
 	port := viper.GetString("MINIO_PORT")
 	endpoint := fmt.Sprintf("%s:%s", host, port)
 	accessKeyID := viper.GetString("MINIO_USERNAME")
 	secretAccessKey := viper.GetString("MINIO_PASSWORD")
 	useSSL := viper.GetBool("MINIO_SSL")
+	bucketName := viper.GetString("MINIO_BUCKET")
 
 	minioClient, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
@@ -27,5 +33,8 @@ func NewMinioClient(viper *viper.Viper) *minio.Client {
 	}
 
 	log.Printf("[Minio] ✅ Koneksi berhasil ke Minio")
-	return minioClient
+	return &MinioConfig{
+		MinioClient: minioClient,
+		Bucket:      bucketName,
+	}
 }
