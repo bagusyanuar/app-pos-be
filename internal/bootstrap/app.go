@@ -22,6 +22,8 @@ func initialize() *config.AppConfig {
 
 	// redisClient := config.NewRedisClient(viper)
 
+	minio := config.NewMinioClient(viper)
+
 	return &config.AppConfig{
 		App:       app,
 		Viper:     viper,
@@ -29,6 +31,7 @@ func initialize() *config.AppConfig {
 		Logger:    logger,
 		JWT:       cfgJWT,
 		Validator: validator,
+		Minio:     minio,
 		// Redis:     redisClient,
 	}
 }
